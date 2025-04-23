@@ -118,6 +118,7 @@
 
   function gerarChecklist(viaturaId, itensPorCompartimento) {
     const container = document.getElementById(viaturaId);
+    container.innerHTML = ""; // limpa conteúdo anterior se houver
 
     compartimentos.forEach(comp => {
       const accordion = document.createElement('button');
@@ -140,10 +141,8 @@
 
       container.appendChild(accordion);
       container.appendChild(panel);
-    });
 
-    document.querySelectorAll('.accordion').forEach(acc => {
-      acc.addEventListener('click', function() {
+      accordion.addEventListener('click', function() {
         this.classList.toggle('active');
         const panel = this.nextElementSibling;
         panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
