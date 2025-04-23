@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checklist de Viaturas - Bombeiros</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
+    body { font-family: Arial, sans-serif; margin: 20px; max-width: 480px; margin-left: auto; margin-right: auto; }
     .hidden { display: none; }
     .section { margin-bottom: 20px; }
     .accordion {
@@ -30,7 +30,8 @@
       overflow: hidden;
     }
     textarea { width: 100%; height: 60px; margin-top: 10px; }
-    button { margin-top: 10px; padding: 10px 15px; }
+    button { margin-top: 10px; padding: 10px 15px; width: 100%; }
+    input[type="text"] { width: 100%; padding: 8px; margin: 5px 0; box-sizing: border-box; }
   </style>
 </head>
 <body>
@@ -67,20 +68,36 @@
     "Baú superior central"
   ];
 
-  const itensPorCompartimento = {
-    "Cabine": ["Rádio HT", "Tablet", "Chave reserva"],
-    "Gaveta 1 lado motorista": ["Mangueira 1 ½\"", "Conector Y", "Esguicho regulável"],
-    "Gaveta 2 lado motorista": ["Extintor PQS", "Lanterna tática", "Par de luvas"],
-    "Gaveta 3 lado motorista": ["Chave inglesa", "Fita isolante", "Barra de ferro"],
-    "Gaveta 4 lado motorista": ["Capacete reserva", "Óculos de proteção", "Máscara facial"],
-    "Gaveta 1 lado passageiro": ["Rolo de mangueira 2½\"", "Suporte metálico", "Kit emenda"],
-    "Gaveta 2 lado passageiro": ["Corda de salvamento", "Mosquetão", "Freio oito"],
-    "Gaveta 3 lado passageiro": ["Fita tubular", "Cinto de segurança", "Cadeirinha"],
-    "Gaveta 4 lado passageiro": ["Kit de trauma", "Estetoscópio", "Esfigmomanômetro"],
-    "Gaveta traseira": ["Gerador", "Fita zebrada", "Cone de sinalização"],
-    "Baú superior lado passageiro": ["Ventilador", "Fita LED", "Tapete antiderrapante"],
-    "Baú superior lado motorista": ["Prancha rígida", "Colar cervical", "KED"],
-    "Baú superior central": ["Maca SKED", "Cobertor aluminizado", "Cobertor térmico"]
+  const itensABT260 = {
+    "Cabine": ["Documentos da viatura", "Lanterna tática", "GPS portátil"],
+    "Gaveta 1 lado motorista": ["Mangueira de combate 1", "Chave Storz", "Redutor de pressão"],
+    "Gaveta 2 lado motorista": ["Esguicho regulável", "Adaptador angular", "Equipamento de proteção"],
+    "Gaveta 3 lado motorista": ["Fita para isolamento", "Pano absorvente", "Kit sinalização"],
+    "Gaveta 4 lado motorista": ["Cabo de vassoura", "Martelo de emergência", "Tesoura corta cinto"],
+    "Gaveta 1 lado passageiro": ["Maleta de primeiros socorros", "Ambu adulto", "Luvas cirúrgicas"],
+    "Gaveta 2 lado passageiro": ["Fitas de ancoragem", "Polia simples", "Capacete de resgate"],
+    "Gaveta 3 lado passageiro": ["Talas de imobilização", "Cobertor térmico", "Cinta aranha"],
+    "Gaveta 4 lado passageiro": ["Prancha curta", "Colar cervical regulável", "Coxim de cabeça"],
+    "Gaveta traseira": ["Extintor de CO2", "Gerador elétrico", "Cone sinalizador"],
+    "Baú superior lado passageiro": ["Tenda modular", "Caixa de ferramentas", "Pá articulada"],
+    "Baú superior lado motorista": ["Macaco hidráulico", "Rolo de mangueira extra", "Tampa anti-chamas"],
+    "Baú superior central": ["Kit de iluminação", "Capa de chuva", "Cobertura aluminizada"]
+  };
+
+  const itensABT662 = {
+    "Cabine": ["Manual da viatura", "Sistema de rádio", "Ficha de ocorrência"],
+    "Gaveta 1 lado motorista": ["Mangueira 1½\" 15m", "Mangueira 2½\" 20m", "Chave Storz pequena"],
+    "Gaveta 2 lado motorista": ["Esguicho tipo jato", "Adaptador storz", "Luva térmica"],
+    "Gaveta 3 lado motorista": ["Lanterna recarregável", "Capacete reserva", "Máscara facial"],
+    "Gaveta 4 lado motorista": ["Barra forcado", "Pé de cabra", "Chave inglesa"],
+    "Gaveta 1 lado passageiro": ["Kit primeiros socorros", "Ataduras", "Luvas descartáveis"],
+    "Gaveta 2 lado passageiro": ["Cinto de ancoragem", "Mosquetão", "Fita tubular"],
+    "Gaveta 3 lado passageiro": ["Maca SKED", "Corda 30m", "Freio oito"],
+    "Gaveta 4 lado passageiro": ["Colar cervical", "Prancha rígida", "Bolsa de resgate"],
+    "Gaveta traseira": ["Gerador portátil", "Extintor reserva", "Fita zebrada"],
+    "Baú superior lado passageiro": ["Tenda portátil", "Lona impermeável", "Cavalete de isolamento"],
+    "Baú superior lado motorista": ["Cavalete de iluminação", "Kit resgate veicular", "Tripé retrátil"],
+    "Baú superior central": ["Ventilador axial", "Tampa anti-derramamento", "Cobertor aluminizado"]
   };
 
   function iniciarChecklist() {
@@ -95,11 +112,11 @@
     document.getElementById('identificacao').classList.add('hidden');
     document.getElementById('checklist').classList.remove('hidden');
 
-    gerarChecklist('abt260');
-    gerarChecklist('abt662');
+    gerarChecklist('abt260', itensABT260);
+    gerarChecklist('abt662', itensABT662);
   }
 
-  function gerarChecklist(viaturaId) {
+  function gerarChecklist(viaturaId, itensPorCompartimento) {
     const container = document.getElementById(viaturaId);
 
     compartimentos.forEach(comp => {
